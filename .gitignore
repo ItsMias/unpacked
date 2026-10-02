@@ -1,0 +1,9 @@
+node_modules/
+web/dist/
+engine/target/
+# Real package data used while developing: never commit.
+web/public/dev/
+# Early design drafts, built on real package data.
+design/
+# Local editor and assistant settings.
+.claude/
