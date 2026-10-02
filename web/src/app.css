@@ -1,0 +1,204 @@
+/* Self-hosted fonts (SIL Open Font License). Discord's own faces aren't free to ship, so these are
+   the closest open matches, picked for the Checkpoint remake: Figtree for gg sans, Archivo at
+   112.5% width for ABC Ginto Nord, Reddit Mono for monospace. */
+@font-face { font-family: 'Figtree'; font-weight: 300 900; font-display: swap;
+  src: url("/fonts/Figtree-latin.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Figtree'; font-weight: 300 900; font-display: swap;
+  src: url("/fonts/Figtree-latin-ext.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Archivo SemiExpanded'; font-weight: 800 900; font-display: swap;
+  src: url("/fonts/ArchivoSemiExpanded-900-latin.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Archivo SemiExpanded'; font-weight: 800 900; font-display: swap;
+  src: url("/fonts/ArchivoSemiExpanded-900-latin-ext.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: 'Reddit Mono'; font-weight: 400 700; font-display: swap;
+  src: url("/fonts/RedditMono-latin.woff2") format('woff2'); }
+
+:root {
+  color-scheme: dark;
+
+  /* Discord's dark surfaces */
+  --bg: #1e1f22;
+  --card: #2b2d31;
+  --raised: #383a40;
+  --hover: #35373c;
+  --sunk: #232428;
+  --line: #3f4147;
+
+  --t-head: #f2f3f5;
+  --t-body: #dbdee1;
+  --t-muted: #949ba4;
+  --t-faint: #6d6f78;
+
+  --green: #23a55a;
+  --red: #f23f43;
+
+  --ui: 'Figtree', system-ui, sans-serif;
+  --mono: 'Reddit Mono', ui-monospace, monospace;
+  --display: 'Archivo SemiExpanded', 'Figtree', sans-serif;
+
+  --radius: 12px;
+
+  /* Accent: magenta from the itsmias.xyz banner glow (#AF2FC3), cleaned up. */
+  --acc: #bd4be0;
+  --acc-strong: #a936cc;
+  --acc-text: #dc9cf5;
+  --acc-soft: rgba(189, 75, 224, .16);
+  --on-acc: #fff;
+  /* Heatmap ramp: one hue, lightness rising with volume; h0 = none. */
+  --h0: #393b41;
+  --h1: #4b2c5c;
+  --h2: #6d3187;
+  --h3: #9438b4;
+  --h4: #be4be1;
+  --h5: #e898ff;
+  /* Categories (who/where), checked for colour-blind separation on --card. Slot 1 follows the accent. */
+  --cat-1: #bd4be0;
+  --cat-2: #20a19d;
+  --cat-3: #c4861f;
+  --cat-4: #6f86f0;
+}
+:root[data-accent="pink"] {
+  --acc: #f5a9b8;
+  --acc-strong: #f5a9b8;
+  --acc-text: #f5a9b8;
+  --acc-soft: rgba(245, 169, 184, .14);
+  --on-acc: #1e1f22;
+  --h1: #57303b;
+  --h2: #80424f;
+  --h3: #b05c6d;
+  --h4: #e0889a;
+  --h5: #ffd0d9;
+  --cat-1: #d06a86;
+  --cat-2: #2f8fd6;
+  --cat-3: #bf8a1f;
+  --cat-4: #20a19d;
+}
+:root[data-accent="green"] {
+  --acc: #2ea043;
+  --acc-strong: #238636;
+  --acc-text: #3fb950;
+  --acc-soft: rgba(46, 160, 67, .16);
+  --on-acc: #fff;
+  /* GitHub's contribution greens, with a lighter step on top. */
+  --h1: #0e4429;
+  --h2: #006d32;
+  --h3: #26a641;
+  --h4: #39d353;
+  --h5: #9be9a8;
+  --cat-1: #2ea043;
+  --cat-2: #bd4be0;
+  --cat-3: #c4861f;
+  --cat-4: #6f86f0;
+}
+:root[data-accent="violet"] {
+  --acc: #8f7ff0;
+  --acc-strong: #6f5fe0;
+  --acc-text: #b9aeff;
+  --acc-soft: rgba(143, 127, 240, .16);
+  --on-acc: #fff;
+  --h1: #34305a;
+  --h2: #4a428e;
+  --h3: #685bc2;
+  --h4: #8f7ff0;
+  --h5: #cfc7ff;
+  --cat-1: #8f7ff0;
+  --cat-4: #d0607a;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--t-body);
+  font: 400 15px/1.45 var(--ui);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+button, input, select { font: inherit; color: inherit; }
+a { color: var(--acc-text); }
+:focus-visible { outline: 2px solid var(--acc-text); outline-offset: 2px; }
+.num { font-variant-numeric: tabular-nums; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Shared card */
+.card { background: var(--card); border-radius: var(--radius); padding: 20px 24px 22px; min-width: 0; }
+.card h2 { margin: 0 0 16px; font-size: 18px; font-weight: 700; color: var(--t-head); }
+.card h2:has(+ .sub) { margin-bottom: 0; }
+/* A short note that belongs to a title sits after it, in brackets: "Top emoji (in reactions too)". */
+.card h2 small, .card h2 .note { font-size: 13px; font-weight: 500; color: var(--t-muted); margin-left: 6px; }
+.card .sub { margin: 4px 0 16px; color: var(--t-muted); font-size: 14px; }
+
+/* Section pages: layout, the stats strip, ranked lists */
+.page { max-width: 1320px; margin: 0 auto; padding: 24px; }
+.grid12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; margin-top: 16px; }
+.s4 { grid-column: span 4; } .s5 { grid-column: span 5; } .s6 { grid-column: span 6; }
+.s7 { grid-column: span 7; } .s8 { grid-column: span 8; } .s12 { grid-column: span 12; }
+/* Clipped, so the divider each cell draws on its left doesn't show on the box's own left edge. */
+.strip { background: var(--card); border-radius: var(--radius); overflow: hidden; }
+.strip dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 0; }
+.strip dl > div { padding: 18px 24px; box-shadow: -1px 0 0 var(--line); }
+.strip dt { font-size: 14px; color: var(--t-muted); font-weight: 600; }
+.strip dd { margin: 4px 0 0; font: 900 26px/1.1 var(--display); color: var(--t-head); font-variant-numeric: tabular-nums; }
+.strip dd small { font: 600 14px var(--ui); color: var(--t-muted); margin-left: 4px; }
+.meter { display: block; height: 6px; border-radius: 3px; background: var(--sunk); }
+.meter i { display: block; height: 100%; border-radius: 3px; background: var(--acc); }
+.muted { color: var(--t-muted); }
+
+/* A long list that scrolls inside its card, with a scrollbar you can't miss and soft shadows at
+   the top and bottom edges while there's more to scroll to. */
+.scroll-list {
+  max-height: min(70vh, 760px); overflow-y: auto; padding-right: 6px; overscroll-behavior: contain;
+  background:
+    linear-gradient(var(--card) 30%, transparent) top / 100% 36px no-repeat local,
+    linear-gradient(transparent, var(--card) 70%) bottom / 100% 36px no-repeat local,
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .45), transparent) top / 100% 14px no-repeat scroll,
+    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .45), transparent) bottom / 100% 14px no-repeat scroll;
+}
+.scroll-list > li { content-visibility: auto; contain-intrinsic-size: auto 62px; }
+.scroll-list::-webkit-scrollbar { width: 12px; }
+.scroll-list::-webkit-scrollbar-track { background: var(--sunk); border-radius: 6px; }
+.scroll-list::-webkit-scrollbar-thumb { background: var(--acc-strong); border-radius: 6px; border: 3px solid var(--sunk); min-height: 48px; }
+.scroll-list::-webkit-scrollbar-thumb:hover { background: var(--acc); }
+@supports (-moz-appearance: none) {
+  .scroll-list { scrollbar-color: var(--acc-strong) var(--sunk); }
+}
+.chead { display: flex; justify-content: space-between; align-items: start; gap: 16px; flex-wrap: wrap; }
+@media (max-width: 900px) {
+  .s4, .s5, .s6, .s7, .s8 { grid-column: span 12; }
+}
+@media (max-width: 620px) {
+  .page { padding: 16px; }
+  .card { padding: 16px; }
+  .strip dl > div { padding: 14px 16px; }
+  .strip dd { font-size: 22px; }
+}
+
+/* Heat cells, shared by the calendar, the hour grid and legends */
+.cell { border-radius: 3px; background: var(--h0); }
+.cell[data-l="1"] { background: var(--h1); }
+.cell[data-l="2"] { background: var(--h2); }
+.cell[data-l="3"] { background: var(--h3); }
+.cell[data-l="4"] { background: var(--h4); }
+.cell[data-l="5"] { background: var(--h5); }
+
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: -1px; }
+.swatch.alive { background: var(--acc); }
+.swatch.deleted { background: var(--t-muted); }
+.swatch.lost { background: repeating-linear-gradient(135deg, var(--t-faint) 0 2px, transparent 2px 5px); box-shadow: inset 0 0 0 1px var(--t-faint); }
+
+/* One tooltip for everything with data-tip */
+.tip {
+  position: fixed; z-index: 100; pointer-events: none;
+  background: #111214; color: var(--t-head);
+  font-size: 13px; font-weight: 600; padding: 6px 10px; border-radius: 6px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, .24);
+  white-space: nowrap; opacity: 0;
+  transform: translate(-50%, calc(-100% - 10px));
+}
+.tip.on { opacity: 1; }
+.tip small { display: block; font-weight: 500; color: var(--t-muted); font-size: 12px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
