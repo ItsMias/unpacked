@@ -6,9 +6,17 @@
 
   /**
    * `pages` is [{ id, label }]; without it (the drop screen) only the brand and accent show.
-   * `ranges` is the options for the date range dropdown.
+   * `ranges` is the options for the date range dropdown. `onhome` is the logo's click, and
+   * `onback` (on the home page while a package is open) adds a button back to the stats.
    */
-  let { pages = null, page = "", ranges = [], range = $bindable("all"), status = "", demo = false, onopen = null } = $props();
+  let { pages = null, page = "", ranges = [], range = $bindable("all"), status = "", demo = false, onopen = null, onhome = null, onback = null } = $props();
+
+  // A plain click on the logo goes home in place; middle and modified clicks follow the link to a new tab.
+  function home(e) {
+    if (!onhome || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    onhome();
+  }
 
   // Pages marked `more` sit in a menu at the end of the tabs.
   const main = $derived(pages?.filter((p) => !p.more) ?? []);
@@ -35,7 +43,7 @@
 
 <header class="top">
   <div class="in">
-    <a class="brand" href="#/"><span class="mark" aria-hidden="true">U</span>Unpacked</a>
+    <a class="brand" href="./" onclick={home}><span class="mark" aria-hidden="true">U</span>Unpacked</a>
     {#if demo}<span class="demo" title="Made-up data, not a real account">Demo</span>{/if}
     {#if pages}
       <nav class="tabs" aria-label="Sections">
@@ -68,6 +76,7 @@
       </a>
       <AccentMenu />
       {#if onopen}<button class="cta" onclick={onopen}>{demo ? "Open your package" : "Open package"}</button>{/if}
+      {#if onback}<button class="cta back" onclick={onback}>Back to your stats</button>{/if}
     </div>
   </div>
 </header>
@@ -118,6 +127,7 @@
     .status { display: none; }
   }
   @media (max-width: 480px) {
-    .cta { display: none; }
+    /* The way back to the stats stays. */
+    .cta:not(.back) { display: none; }
   }
 </style>
