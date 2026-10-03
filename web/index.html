@@ -6,6 +6,75 @@
 <title>Unpacked</title>
 <meta name="description" content="Stats from your Discord data package, worked out in your browser.">
 <meta name="theme-color" content="#1e1f22">
+
+<!-- Link previews. Discord shows the component embed below; everything else (and Discord as a
+     fallback) uses the Open Graph tags. Tags must be in the HTML: crawlers don't run scripts.
+     Discord caches images by URL: when public/og.png changes, change its ?v= (both places below). -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Unpacked">
+<meta property="og:title" content="Unpacked">
+<meta property="og:description" content="See all-time stats on your messages, calls, people, servers, games and more. Works with “Use data to improve Discord” turned off.">
+<meta property="og:url" content="https://unpacked.itsmias.xyz/">
+<meta property="og:image" content="https://unpacked.itsmias.xyz/og.png?v=c9e79131">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Unpacked: a profile card, a chart of when you talk and a calendar of messages per day">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Browsers use the first theme-color and Discord the last: the page stays dark, previews get the accent. -->
+<meta name="theme-color" content="#bd4be0">
+<script id="discord:component-embed" type="application/vnd.discord.component-embed+json">
+{
+  "component": {
+    "type": 17,
+    "accent_color": 12405728,
+    "components": [
+      {
+        "type": 12,
+        "items": [
+          {
+            "media": {
+              "url": "https://unpacked.itsmias.xyz/og.png?v=c9e79131"
+            },
+            "description": "Unpacked: a profile card, a chart of when you talk and a calendar of messages per day"
+          }
+        ]
+      },
+      {
+        "type": 10,
+        "content": "# Unpacked\nSee all-time stats on your messages, calls, people, servers, games and more."
+      },
+      {
+        "type": 10,
+        "content": "-# Works with “Use data to improve Discord” turned off."
+      },
+      {
+        "type": 1,
+        "components": [
+          {
+            "type": 2,
+            "style": 5,
+            "label": "Open Unpacked",
+            "url": "https://unpacked.itsmias.xyz/"
+          },
+          {
+            "type": 2,
+            "style": 5,
+            "label": "Try the demo",
+            "url": "https://unpacked.itsmias.xyz/?demo"
+          },
+          {
+            "type": 2,
+            "style": 5,
+            "label": "Source code",
+            "url": "https://github.com/ItsMias/unpacked"
+          }
+        ]
+      }
+    ]
+  }
+}
+</script>
+
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/fonts/Figtree-latin.woff2" as="font" type="font/woff2" crossorigin>
 </head>
