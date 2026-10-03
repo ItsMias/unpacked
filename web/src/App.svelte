@@ -42,6 +42,9 @@
   let games = $state.raw({ state: "idle" });
   let range = $state("all");
   let page = $state("overview");
+  // An address without a page (/ rather than /#/messages) is the home page, also while a package
+  // is open: the logo leads there, and Back or the top bar's button returns to the stats.
+  let home = $state(true);
   // Made-up data from the "Try the demo" button (or ?demo in the URL).
   let demo = $state(false);
 
@@ -61,6 +64,8 @@
   );
 
   let workers = [];
+  // The wait on the finished loading screen, cancelled when the logo leads home meanwhile.
+  let reveal = 0;
 
   /** [key, value, key, value, …] from a worker into a Map. */
   function pairs(flat) {
@@ -117,10 +122,7 @@
         merge();
         load.progress = { ...load.progress, stage: "done" };
         // A moment on the finished calendar before the page takes over.
-        setTimeout(() => {
-          phase = "ready";
-          if (!location.hash.startsWith("#/")) location.hash = "#/overview";
-        }, Date.now() - load.started > 3000 ? 900 : 0);
+        reveal = setTimeout(showStats, Date.now() - load.started > 3000 ? 900 : 0);
       },
       (message) => {
         error = message;
@@ -144,6 +146,16 @@
         if (main) merge();
       },
       () => (load.tns = { state: "failed" }));
+  }
+
+  /** The stats of a package that's been read, on the Overview unless the address names a page. */
+  function showStats() {
+    phase = "ready";
+    if (home) {
+      location.hash = "#/overview";
+      // Now rather than on hashchange, so the home page doesn't flash up first.
+      route();
+    }
   }
 
   /** The main result with what the trust & safety worker found added to its facts and sources. */
@@ -183,17 +195,35 @@
 
   function reset() {
     workers.forEach((w) => w.terminate());
+    clearTimeout(reveal);
     result = null;
     demo = false;
     phase = "drop";
     const params = new URLSearchParams(location.search);
     params.delete("demo");
     history.replaceState(null, "", location.pathname + (params.size ? `?${params}` : ""));
+    route();
+  }
+
+  /**
+   * The logo: the home page. A package that's been read stays open, so Back or the top bar's
+   * button returns to it; the demo and a package still being read are closed.
+   */
+  function goHome() {
+    if (phase === "ready" && !demo) {
+      if (!home) history.pushState(null, "", location.pathname + location.search);
+      return route();
+    }
+    // Leaving the demo is a new history entry too, so Back reopens it.
+    if (demo) history.pushState(null, "", location.pathname);
+    reset();
   }
 
   const route = () => {
     const id = location.hash.replace(/^#\/?/, "");
-    page = PAGES.some((p) => p.id === id) ? id : "overview";
+    home = !id;
+    // On the home page `page` keeps the last one, for the way back.
+    if (id) page = PAGES.some((p) => p.id === id) ? id : "overview";
     window.scrollTo(0, 0);
   };
 
@@ -215,7 +245,7 @@
       const facts = await (await fetch(devFacts)).json();
       result = { facts, avatar: null, avatars: [], icons: {}, sources: null, hasAnalytics: facts.games?.source === "analytics" };
       games = result.hasAnalytics ? { state: "done", games: facts.games, tags: [] } : { state: "none" };
-      phase = "ready";
+      showStats();
     }
   });
 
@@ -224,14 +254,14 @@
 
 <svelte:window onhashchange={route} onpopstate={onHistory} onmouseover={onPointer} onscroll={() => (tip.on = false)} />
 
-{#if phase === "ready" && view}
-  <TopBar pages={PAGES} {page} {ranges} bind:range {status} {demo} onopen={reset} />
+{#if phase === "ready" && view && !home}
+  <TopBar pages={PAGES} {page} {ranges} bind:range {status} {demo} onopen={reset} onhome={goHome} />
   <Page {result} {view} {range} {games} />
 {:else if phase === "loading"}
-  <TopBar />
+  <TopBar onhome={goHome} />
   <Loading {load} {games} />
 {:else}
-  <TopBar />
+  <TopBar onhome={goHome} onback={phase === "ready" ? () => (location.hash = `#/${page}`) : null} />
   <Home {phase} {error} onfile={open} ondemo={openDemo} />
 {/if}
 
