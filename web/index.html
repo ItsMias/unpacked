@@ -3,9 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unpacked</title>
-<meta name="description" content="Stats from your Discord data package, worked out in your browser.">
+<title>Unpacked: Discord Stats From Your Data Package</title>
+<meta name="description" content="All-time stats from your Discord data package: messages, calls, people, servers and games. Read in your browser; nothing is uploaded.">
 <meta name="theme-color" content="#1e1f22">
+
+<!-- Search engines. The WebSite name is what Google shows as the site name above the result.
+     robots.txt and sitemap.xml are in public/; the long hex .txt there is the IndexNow key
+     (see .github/workflows/pages.yml). -->
+<link rel="canonical" href="https://unpacked.itsmias.xyz/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "Unpacked",
+      "url": "https://unpacked.itsmias.xyz/"
+    },
+    {
+      "@type": "WebApplication",
+      "name": "Unpacked",
+      "url": "https://unpacked.itsmias.xyz/",
+      "description": "Turns your Discord data package into all-time stats: messages, calls, people, servers, games, emoji, devices and purchases. Unofficial and open source; the package is read in your browser and never uploaded.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript and WebAssembly",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "image": "https://unpacked.itsmias.xyz/og.png",
+      "author": { "@type": "Person", "name": "Mias", "alternateName": "ItsMias", "url": "https://itsmias.xyz/" },
+      "sameAs": ["https://github.com/ItsMias/unpacked"]
+    }
+  ]
+}
+</script>
 
 <!-- Link previews. Discord shows the component embed below; everything else (and Discord as a
      fallback) uses the Open Graph tags. Tags must be in the HTML: crawlers don't run scripts.

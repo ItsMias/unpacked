@@ -42,3 +42,15 @@ jobs:
           path: web/dist
       - id: deployment
         uses: actions/deploy-pages@v4
+      # Tells Bing (and the other IndexNow search engines) the page changed. The key file is
+      # web/public/<key>.txt; it must be live before the ping, so wait for it. A failed ping doesn't fail the deploy.
+      - name: Ping IndexNow
+        continue-on-error: true
+        env:
+          HOST: unpacked.itsmias.xyz
+          KEY: e90ec67da6b11a06265657c595ec377a
+        run: |
+          curl -fsS --retry 10 --retry-delay 15 --retry-all-errors -o /dev/null "https://$HOST/$KEY.txt"
+          curl -fsS -X POST https://api.indexnow.org/indexnow -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"$HOST\",\"key\":\"$KEY\",\"keyLocation\":\"https://$HOST/$KEY.txt\",\"urlList\":[\"https://$HOST/\"]}" \
+            -w 'IndexNow: HTTP %{http_code}\n'
