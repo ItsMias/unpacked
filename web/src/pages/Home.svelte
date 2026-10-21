@@ -113,7 +113,7 @@
   </section>
 
   <footer>
-    <a class="credit" href="https://itsmias.xyz" target="_blank" rel="noopener">Made by ItsMias</a><span class="sep" aria-hidden="true">-</span>Not affiliated with or endorsed by Discord.
+    <a class="credit" href="https://itsmias.com" target="_blank" rel="noopener">Made by ItsMias</a><span class="sep" aria-hidden="true">-</span>Not affiliated with or endorsed by Discord.
   </footer>
 </main>
 

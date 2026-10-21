@@ -1,5 +1,5 @@
 # Builds the site (web/, using the prebuilt engine in web/src/lib/pkg) and publishes it to GitHub
-# Pages at unpacked.itsmias.xyz.
+# Pages at unpacked.itsmias.com.
 name: Deploy site
 
 on:
@@ -47,7 +47,7 @@ jobs:
       - name: Ping IndexNow
         continue-on-error: true
         env:
-          HOST: unpacked.itsmias.xyz
+          HOST: unpacked.itsmias.com
           KEY: e90ec67da6b11a06265657c595ec377a
         run: |
           curl -fsS --retry 10 --retry-delay 15 --retry-all-errors -o /dev/null "https://$HOST/$KEY.txt"
