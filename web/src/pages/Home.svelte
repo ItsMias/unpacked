@@ -6,6 +6,11 @@
   import Showcase from "../components/Showcase.svelte";
   import { summarize } from "../lib/showcase.js";
   import { REPO } from "../lib/site.js";
+  import "../lib/itsmias-sig.css";
+  import "../lib/itsmias-sig.js";
+
+  // Builds the ItsMias signature's wordmark (lib/itsmias-sig.js) each time the footer mounts.
+  const miasSig = (node) => window.miasSig(node);
 
   /** `ondemo(page?)` opens the demo account, on `page` if given. */
   let { phase, error, onfile, ondemo } = $props();
@@ -113,7 +118,12 @@
   </section>
 
   <footer>
-    <a class="credit" href="https://itsmias.com" target="_blank" rel="noopener">Made by ItsMias</a><span class="sep" aria-hidden="true">-</span>Not affiliated with or endorsed by Discord.
+    <a class="mias-sig" use:miasSig href="https://itsmias.com/" target="_blank" rel="noopener" aria-label="Made by ItsMias, itsmias.com">
+      <span class="mias-sig-label">Made by</span>
+      <span class="mias-sig-mark">ITSMIAS</span>
+      <span class="mias-sig-url">itsmias.com<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="square" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9" /></svg></span>
+    </a>
+    <p>Not affiliated with or endorsed by Discord.</p>
   </footer>
 </main>
 
@@ -189,10 +199,19 @@
   details p { margin: 0; padding: 0 18px 16px; color: var(--t-body); max-width: 70em; }
   details a { color: var(--acc-text); font-weight: 600; text-underline-offset: 3px; }
 
-  footer { max-width: 1320px; margin: 0 auto; padding: 24px 24px 48px; color: var(--t-faint); font-size: 13px; }
-  .credit { color: inherit; text-decoration: none; white-space: nowrap; transition: color .15s; }
-  .credit:hover, .credit:focus-visible { color: var(--acc-text); text-decoration: underline; }
-  .sep { margin: 0 .4em; }
+  /* The ItsMias signature (lib/itsmias-sig.css) over the disclaimer. It builds in the accent, so it follows the accent picker. */
+  footer {
+    width: min(1272px, 100% - 48px); margin: 32px auto 0; padding: 48px 0 40px; border-top: 1px solid var(--line);
+    display: grid; justify-items: center; gap: 28px; color: var(--t-faint); font-size: 13px;
+  }
+  footer p { margin: 0; text-align: center; }
+  .mias-sig {
+    --sig-ink: var(--t-head);
+    --sig-muted: var(--t-muted);
+    --sig-hi: var(--acc-text);
+    --sig-glow: 0 0 8px color-mix(in srgb, var(--acc) 60%, transparent);
+    --sig-size: 26px;
+  }
 
   @media (max-width: 1100px) {
     .in { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-top: 56px; }
@@ -205,6 +224,6 @@
     .lede { font-size: 17px; margin-bottom: 24px; }
     .drop { flex-wrap: wrap; }
     .choose { width: 100%; text-align: center; }
-    footer { padding: 16px 16px 40px; }
+    footer { width: calc(100% - 32px); margin-top: 24px; padding: 40px 0 36px; }
   }
 </style>

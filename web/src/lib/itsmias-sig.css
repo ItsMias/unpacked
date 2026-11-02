@@ -1,0 +1,306 @@
+/* ============================================================
+   ItsMias signature — the "made by" sign-off at the foot of the
+   sites ItsMias builds. This file and itsmias-sig.js are the same
+   on every site; each site themes the signature through the
+   --sig-* properties in its own styles.css.
+
+   The ITSMIAS wordmark builds in like the one on itsmias.com,
+   letter by letter: a cyan line sweeps across, two offset slices
+   of the glyph slide in from opposite sides and lock together,
+   then the glyph wipes in cyan and cools to the site's ink. The T
+   is built last from its strokes: the crossbar flies in from the
+   right, the stem drops in and overshoots. itsmias-sig.js plays it
+   once the signature is in view, and again on every later visit.
+   Without the script the signature is simply there.
+
+   .mias-sig--compact is a tighter stack with no address, for
+   footers with no room to spare; its label stays put and only the
+   mark builds.
+   ============================================================ */
+
+/* Syne ExtraBold (SIL Open Font License), cut down to the letters of
+   ITSMIAS so it is ~1 KB and served from the site itself: no request
+   to Google, and allowed under a font-src 'self' policy. */
+@font-face {
+  font-family: 'ItsMias Sig';
+  font-weight: 800;
+  font-display: block;
+  src: url('itsmias-sig.woff2') format('woff2');
+}
+
+.mias-sig {
+  --sig-ink: #ece9f5;                    /* the settled wordmark */
+  --sig-muted: #8f86ad;                  /* label and address */
+  --sig-hi: #57e0dd;                     /* ItsMias cyan: construction and hover */
+  --sig-size: 1.75rem;                   /* wordmark size */
+  --sig-line: max(2px, 0.06em);          /* construction line / underline */
+  --sig-dot: max(3px, 0.09em);           /* stray glitch pixels */
+  --sig-rule: 1px;                       /* hairlines beside the label */
+  --sig-glow: 0 0 8px rgba(87, 224, 221, 0.6);
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--sig-muted);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* --- Label: small caps between two hairlines ---------------- */
+.mias-sig-label {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  font-size: 0.68rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.mias-sig-label::before,
+.mias-sig-label::after {
+  content: '';
+  width: 1.75rem;
+  height: var(--sig-rule);
+  background: currentColor;
+  opacity: 0.55;
+}
+
+/* the right hairline sits closer, evening out the trailing letter-spacing */
+.mias-sig-label::after {
+  margin-left: -0.3em;
+}
+
+/* --- Wordmark ---------------------------------------------- */
+.mias-sig-mark {
+  position: relative;
+  white-space: nowrap;
+  font-family: 'ItsMias Sig', sans-serif;
+  font-weight: 800;
+  font-size: var(--sig-size);
+  line-height: 1.1;
+  letter-spacing: 0.42em;
+  padding-left: 0.42em; /* balances the trailing letter-spacing so it centres */
+  color: var(--sig-ink);
+  transition: color 0.25s ease;
+}
+
+/* sliding underline, as under itsmias.com's nav links */
+.mias-sig-mark::after {
+  content: '';
+  position: absolute;
+  left: 0.42em;
+  right: 0.42em;
+  bottom: -0.2em;
+  height: var(--sig-line);
+  background: var(--sig-hi);
+  box-shadow: var(--sig-glow);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* --- Address ----------------------------------------------- */
+.mias-sig-url {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.78rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  transition: color 0.25s ease;
+}
+
+/* sits on the baseline, so the hover lift stays within the text */
+.mias-sig-url svg {
+  position: relative;
+  top: 0.1em;
+  width: 0.75em;
+  height: 0.75em;
+  opacity: 0.7;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* --- Hover: the mark lights up cyan, as on itsmias.com ------- */
+.mias-sig:hover .mias-sig-mark,
+.mias-sig:focus-visible .mias-sig-mark {
+  color: var(--sig-hi);
+}
+
+.mias-sig:hover .mias-sig-mark::after,
+.mias-sig:focus-visible .mias-sig-mark::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.mias-sig:hover .mias-sig-url,
+.mias-sig:focus-visible .mias-sig-url {
+  color: var(--sig-ink);
+}
+
+.mias-sig:hover .mias-sig-url svg,
+.mias-sig:focus-visible .mias-sig-url svg {
+  transform: translate(0.15em, -0.15em);
+}
+
+/* --- Entrance: armed by the script, played with .is-in --------
+   The hairlines draw outwards from the label, the mark builds,
+   then the address fades up under it. Leaving .is-in resets it
+   all instantly, out of sight. */
+.mias-sig.is-armed .mias-sig-label,
+.mias-sig.is-armed .mias-sig-url {
+  opacity: 0;
+}
+
+.mias-sig.is-armed .mias-sig-label::before,
+.mias-sig.is-armed .mias-sig-label::after {
+  transform: scaleX(0);
+}
+
+.mias-sig.is-armed .mias-sig-label::before { transform-origin: right; }
+.mias-sig.is-armed .mias-sig-label::after { transform-origin: left; }
+
+.mias-sig.is-in .mias-sig-label {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+.mias-sig.is-in .mias-sig-label::before,
+.mias-sig.is-in .mias-sig-label::after {
+  transform: none;
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s;
+}
+
+.mias-sig.is-in .mias-sig-url {
+  opacity: 1;
+  transition: opacity 0.6s ease 1.5s, color 0.25s ease;
+}
+
+/* --- Compact: a tighter stack, no address ------------------- */
+.mias-sig--compact {
+  gap: 0.4rem;
+}
+
+.mias-sig--compact .mias-sig-label::before,
+.mias-sig--compact .mias-sig-label::after {
+  width: 1.25rem;
+}
+
+/* the label is there from the start; only the mark builds */
+.mias-sig--compact.is-armed .mias-sig-label {
+  opacity: 1;
+}
+
+.mias-sig--compact.is-armed .mias-sig-label::before,
+.mias-sig--compact.is-armed .mias-sig-label::after {
+  transform: none;
+}
+
+/* --- Wordmark build pieces (split out by itsmias-sig.js) ----- */
+.mias-sig-mark .wm-ch { position: relative; display: inline-block; }
+.mias-sig-mark .wm-g { display: inline-block; clip-path: inset(0 100% 0 0); }
+.mias-sig-mark .wm-s,
+.mias-sig-mark .wm-ln,
+.mias-sig-mark .wm-px { position: absolute; pointer-events: none; opacity: 0; }
+.mias-sig-mark .wm-s { left: 0; top: 0; }
+.mias-sig-mark .wm-s1 { color: var(--sig-hi); clip-path: inset(0 0 56% 0); }
+.mias-sig-mark .wm-s2 { color: inherit; clip-path: inset(56% 0 0 0); }
+.mias-sig-mark .wm-ln { left: -0.18em; right: 0.24em; top: var(--ly, 50%); height: var(--sig-line); background: var(--sig-hi); box-shadow: var(--sig-glow); }
+.mias-sig-mark .wm-px { width: var(--sig-dot); height: var(--sig-dot); background: var(--sig-hi); left: var(--sx); top: var(--sy); }
+
+.mias-sig.is-in .wm-g { clip-path: none; animation: sigGlyph 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; animation-delay: calc(var(--i) * 105ms); }
+.mias-sig.is-in .wm-s1 { animation: sigSlice1 0.85s cubic-bezier(0.2, 0.7, 0.2, 1); animation-delay: calc(var(--i) * 105ms); }
+.mias-sig.is-in .wm-s2 { animation: sigSlice2 0.85s cubic-bezier(0.2, 0.7, 0.2, 1); animation-delay: calc(var(--i) * 105ms); }
+.mias-sig.is-in .wm-ln { animation: sigLine 0.85s cubic-bezier(0.7, 0, 0.2, 1); animation-delay: calc(var(--i) * 105ms - 80ms); }
+.mias-sig.is-in .wm-px { animation: sigPixel 1.25s steps(1, end); animation-delay: var(--sd); }
+
+/* the T finale: crossbar (top copy, cut at --cut, measured by the
+   script) flies in from the right and shrinks into place, then the
+   stem (bottom copy) drops in, overshoots the baseline and snaps
+   back; the real glyph swaps in once they have rejoined */
+.mias-sig.is-in .wm-fin .wm-g { animation: sigFinGlyph 1.2s steps(1, end) backwards; animation-delay: var(--fd); }
+.mias-sig.is-in .wm-fin .wm-ln { animation: none; }
+.mias-sig.is-in .wm-fin .wm-s1 { color: inherit; clip-path: inset(0 0 calc(100% - var(--cut, 30%)) 0); transform-origin: 0 50%; animation: sigFinBar 1.2s cubic-bezier(0.2, 0.7, 0.2, 1); animation-delay: var(--fd); }
+.mias-sig.is-in .wm-fin .wm-s2 { clip-path: inset(var(--cut, 30%) 0 0 0); transform-origin: 50% var(--cut, 30%); animation: sigFinStem 1.2s cubic-bezier(0.2, 0.7, 0.2, 1); animation-delay: var(--fd); }
+
+@keyframes sigLine {
+  0%   { opacity: 1; clip-path: inset(0 100% 0 0); }
+  38%  { opacity: 1; clip-path: inset(0 0 0 0); }
+  100% { opacity: 1; clip-path: inset(0 0 0 100%); }
+}
+
+@keyframes sigSlice1 {
+  0%, 18% { opacity: 0; transform: translateX(-0.55em); }
+  30%     { opacity: 1; transform: translateX(-0.22em); }
+  48%     { opacity: 1; transform: translateX(0.06em); }
+  58%     { opacity: 1; transform: translateX(0); }
+  64%     { opacity: 0; transform: translateX(0); }
+  100%    { opacity: 0; }
+}
+
+@keyframes sigSlice2 {
+  0%, 24% { opacity: 0; transform: translateX(0.5em); }
+  36%     { opacity: 1; transform: translateX(0.18em); }
+  52%     { opacity: 1; transform: translateX(-0.05em); }
+  60%     { opacity: 1; transform: translateX(0); }
+  66%     { opacity: 0; transform: translateX(0); }
+  100%    { opacity: 0; }
+}
+
+@keyframes sigGlyph {
+  0%, 40% { clip-path: inset(0 100% 0 0); color: var(--sig-hi); opacity: 1; }
+  60%     { clip-path: inset(0 0 0 0); color: var(--sig-hi); opacity: 1; }
+  66%     { opacity: 0.35; }
+  72%     { opacity: 1; }
+  100%    { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes sigPixel {
+  0%   { opacity: 1; }
+  18%  { opacity: 0; }
+  34%  { opacity: 1; }
+  46%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes sigFinGlyph {
+  0%  { opacity: 0; }
+  80% { opacity: 1; }
+}
+
+@keyframes sigFinBar {
+  0%       { opacity: 0; transform: translateX(1.8em) scaleX(2.6); color: var(--sig-hi); }
+  4%       { opacity: 1; }
+  30%      { transform: translateX(0.3em) scaleX(1.35); color: var(--sig-hi); }
+  42%      { transform: translateX(-0.03em) scaleX(1); }
+  48%      { transform: none; }
+  80%      { opacity: 1; transform: none; }
+  81%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes sigFinStem {
+  0%, 32%  { opacity: 0; transform: translateY(-1.1em) scaleY(1); color: var(--sig-hi); }
+  35%      { opacity: 1; }
+  52%      { transform: translateY(0) scaleY(2.2); color: var(--sig-hi); }
+  64%      { transform: translateY(0) scaleY(0.9); }
+  72%      { transform: translateY(0) scaleY(1.04); }
+  78%      { transform: none; }
+  80%      { opacity: 1; transform: none; }
+  81%, 100% { opacity: 0; transform: none; }
+}
+
+/* --- Reduced motion: a plain fade, no construction ----------- */
+@media (prefers-reduced-motion: reduce) {
+  .mias-sig-mark .wm-s,
+  .mias-sig-mark .wm-ln,
+  .mias-sig-mark .wm-px { display: none; }
+  .mias-sig-mark .wm-g { clip-path: none; opacity: 0; transition: opacity 0.4s ease; }
+  .mias-sig.is-in .mias-sig-mark .wm-g { opacity: 1; animation: none; }
+  .mias-sig.is-armed .mias-sig-label::before,
+  .mias-sig.is-armed .mias-sig-label::after { transform: none; }
+  .mias-sig.is-in .mias-sig-url { transition: opacity 0.4s ease, color 0.25s ease; }
+  .mias-sig-mark::after,
+  .mias-sig-url svg { transition: none; }
+}
